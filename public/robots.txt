@@ -1,0 +1,11 @@
+User-agent: *
+Allow: /
+
+# Disallow admin panel
+Disallow: /admin/
+
+# Disallow API endpoints
+Disallow: /api/
+
+# Sitemap location (update with your domain)
+Sitemap: https://scorebeyondleadership.org/sitemap.xml
