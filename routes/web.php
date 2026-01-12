@@ -43,6 +43,7 @@ Route::get('/academy/result/{id}', [App\Http\Controllers\AcademyController::clas
 Route::get('/success-stories/{id}', [App\Http\Controllers\SuccessStoryController::class, 'show'])->name('success-stories.show');
 
 Route::get('/gallery', [App\Http\Controllers\GalleryController::class, 'index'])->name('gallery.index');
+Route::get('/projects', [App\Http\Controllers\GalleryController::class, 'projects'])->name('projects.index');
 
 // Policy Pages
 Route::get('/privacy-policy', [App\Http\Controllers\PolicyController::class, 'privacy'])->name('policies.privacy');

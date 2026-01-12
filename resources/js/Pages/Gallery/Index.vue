@@ -19,6 +19,7 @@ interface GallerySection {
 
 const props = defineProps<{
     sections: GallerySection[];
+    title: string;
 }>();
 
 const selectedImage = ref<{ section: GallerySection; image: GalleryImage; index: number } | null>(null);
@@ -68,14 +69,16 @@ const handleKeydown = (event: KeyboardEvent) => {
 </script>
 
 <template>
+
     <Head title="Gallery - Score Beyond Leadership" />
     <LandingLayout>
         <template #hero>
             <section class="py-5 section-bg-gradient-dark border-bottom text-white">
                 <div class="container">
-                    <h1 class="display-4 fw-bold mb-3">Our Gallery</h1>
+                    <h1 class="display-4 fw-bold mb-3">Our {{ props.title }}</h1>
                     <p class="lead mb-0 text-white-50">
-                        Explore our projects and initiatives through photos that capture the impact we're making in communities.
+                        Explore our projects and initiatives through photos that capture the impact we're making in
+                        communities.
                     </p>
                 </div>
             </section>
@@ -88,11 +91,7 @@ const handleKeydown = (event: KeyboardEvent) => {
             </div>
 
             <div v-else class="row g-5">
-                <div
-                    v-for="section in sections"
-                    :key="section.id"
-                    class="col-12"
-                >
+                <div v-for="section in sections" :key="section.id" class="col-12">
                     <div class="page-section">
                         <div class="mb-4">
                             <h2 class="h3 fw-bold mb-2 text-primary">{{ section.title }}</h2>
@@ -100,22 +99,14 @@ const handleKeydown = (event: KeyboardEvent) => {
                         </div>
 
                         <div class="gallery-grid">
-                            <div
-                                v-for="(image, index) in section.images"
-                                :key="image.id"
-                                class="gallery-item"
-                                @click="openLightbox(section, image, index)"
-                            >
+                            <div v-for="(image, index) in section.images" :key="image.id" class="gallery-item"
+                                @click="openLightbox(section, image, index)">
                                 <div class="gallery-item-inner">
-                                    <img
-                                        :src="image.path"
-                                        :alt="image.alt_text"
-                                        class="gallery-image"
-                                        loading="lazy"
-                                    />
+                                    <img :src="image.path" :alt="image.alt_text" class="gallery-image" loading="lazy" />
                                     <div class="gallery-overlay">
                                         <i class="bi bi-zoom-in display-4 text-white"></i>
-                                        <p v-if="image.caption" class="text-white mb-0 mt-2 small">{{ image.caption }}</p>
+                                        <p v-if="image.caption" class="text-white mb-0 mt-2 small">{{ image.caption }}
+                                        </p>
                                     </div>
                                 </div>
                             </div>
@@ -126,45 +117,25 @@ const handleKeydown = (event: KeyboardEvent) => {
         </div>
 
         <!-- Lightbox Modal -->
-        <div
-            v-if="selectedImage"
-            class="lightbox-modal"
-            @click="closeLightbox"
-            @keydown="handleKeydown"
-            tabindex="0"
-        >
+        <div v-if="selectedImage" class="lightbox-modal" @click="closeLightbox" @keydown="handleKeydown" tabindex="0">
             <div class="lightbox-content" @click.stop>
-                <button
-                    class="lightbox-close"
-                    @click="closeLightbox"
-                    aria-label="Close lightbox"
-                >
+                <button class="lightbox-close" @click="closeLightbox" aria-label="Close lightbox">
                     <i class="bi bi-x-lg"></i>
                 </button>
-                <button
-                    v-if="currentImageIndex > 0"
-                    class="lightbox-nav lightbox-prev"
-                    @click.stop="prevImage"
-                    aria-label="Previous image"
-                >
+                <button v-if="currentImageIndex > 0" class="lightbox-nav lightbox-prev" @click.stop="prevImage"
+                    aria-label="Previous image">
                     <i class="bi bi-chevron-left"></i>
                 </button>
                 <button
                     v-if="selectedImage.section.images.length > 1 && currentImageIndex < selectedImage.section.images.length - 1"
-                    class="lightbox-nav lightbox-next"
-                    @click.stop="nextImage"
-                    aria-label="Next image"
-                >
+                    class="lightbox-nav lightbox-next" @click.stop="nextImage" aria-label="Next image">
                     <i class="bi bi-chevron-right"></i>
                 </button>
-                <img
-                    :src="selectedImage.image.path"
-                    :alt="selectedImage.image.alt_text"
-                    class="lightbox-image"
-                />
+                <img :src="selectedImage.image.path" :alt="selectedImage.image.alt_text" class="lightbox-image" />
                 <div class="lightbox-info">
                     <h3 class="h5 fw-bold text-white mb-1">{{ selectedImage.section.title }}</h3>
-                    <p v-if="selectedImage.image.caption" class="text-white-50 mb-0">{{ selectedImage.image.caption }}</p>
+                    <p v-if="selectedImage.image.caption" class="text-white-50 mb-0">{{ selectedImage.image.caption }}
+                    </p>
                     <p class="text-white-50 small mb-0 mt-2">
                         {{ currentImageIndex + 1 }} / {{ selectedImage.section.images.length }}
                     </p>
@@ -376,4 +347,3 @@ const handleKeydown = (event: KeyboardEvent) => {
     }
 }
 </style>
-
