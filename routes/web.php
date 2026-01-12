@@ -10,13 +10,9 @@ use App\Http\Controllers\Shop\PaymentStatusController;
 use App\Http\Controllers\Shop\ShopController;
 use App\Http\Controllers\VolunteerController;
 use App\Models\User;
-use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
-
-User::where('email', 'admin@scorebeyondleadership.org')
-    ->update(['password' => Hash::make('admin@Score12345')]);
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
 
