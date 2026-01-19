@@ -67,7 +67,7 @@ class HomePageSuccessStoryResource extends Resource
                     ->directory('images/home')
                     ->disk('public')
                     ->visibility('public')
-                    ->maxSize(5120)
+                    ->maxSize(5120 * 2) // 10 MB
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->required()
                     ->previewable()
@@ -80,7 +80,7 @@ class HomePageSuccessStoryResource extends Resource
                     ->maxLength(255),
                 Forms\Components\TextInput::make('display_order')
                     ->numeric()
-                    ->default(fn () => (\App\Models\HomePageSuccessStory::max('display_order') ?? -1) + 1)
+                    ->default(fn() => (\App\Models\HomePageSuccessStory::max('display_order') ?? -1) + 1)
                     ->required()
                     ->helperText('Auto-filled with next available number.'),
                 Forms\Components\Toggle::make('is_active')
@@ -143,4 +143,3 @@ class HomePageSuccessStoryResource extends Resource
         ];
     }
 }
-

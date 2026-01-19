@@ -69,7 +69,7 @@ class GallerySectionResource extends Resource
                     ->directory('gallery')
                     ->disk('public')
                     ->visibility('public')
-                    ->maxSize(5120) // 5MB
+                    ->maxSize(5120 * 2) // 10MB
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->helperText('Upload gallery images. You can reorder images by dragging.')
                     ->reorderable()
@@ -79,7 +79,7 @@ class GallerySectionResource extends Resource
                     ->deletable(),
                 Forms\Components\TextInput::make('display_order')
                     ->numeric()
-                    ->default(fn () => (\App\Models\GallerySection::max('display_order') ?? -1) + 1)
+                    ->default(fn() => (\App\Models\GallerySection::max('display_order') ?? -1) + 1)
                     ->required()
                     ->helperText('Lower numbers appear first. Auto-filled with next available number.'),
                 Forms\Components\Toggle::make('is_active')
@@ -150,4 +150,3 @@ class GallerySectionResource extends Resource
         ];
     }
 }
-

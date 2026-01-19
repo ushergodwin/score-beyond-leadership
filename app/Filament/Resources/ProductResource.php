@@ -104,7 +104,7 @@ class ProductResource extends Resource
                 Forms\Components\TextInput::make('limited_badge_label')
                     ->label('Limited Edition Badge Label')
                     ->maxLength(255)
-                    ->visible(fn (callable $get) => $get('is_limited_edition')),
+                    ->visible(fn(callable $get) => $get('is_limited_edition')),
                 Forms\Components\DateTimePicker::make('published_at')
                     ->label('Published At'),
                 Forms\Components\FileUpload::make('images')
@@ -121,7 +121,7 @@ class ProductResource extends Resource
                     ->directory('products')
                     ->disk('public')
                     ->visibility('public')
-                    ->maxSize(5120) // 5MB
+                    ->maxSize(5120 * 2) // 10MB
                     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
                     ->helperText('Upload product images. First image will be used as primary. You can reorder images by dragging.')
                     ->reorderable()
@@ -161,15 +161,15 @@ class ProductResource extends Resource
                     ->searchable()
                     ->sortable(),
                 Tables\Columns\TextColumn::make('base_price')
-                    ->money(fn ($record) => $record->base_currency ?? 'UGX')
+                    ->money(fn($record) => $record->base_currency ?? 'UGX')
                     ->sortable(),
                 Tables\Columns\TextColumn::make('inventory')
                     ->numeric()
                     ->sortable()
-                    ->color(fn ($record) => $record->inventory <= 5 ? 'danger' : ($record->inventory <= 20 ? 'warning' : 'success')),
+                    ->color(fn($record) => $record->inventory <= 5 ? 'danger' : ($record->inventory <= 20 ? 'warning' : 'success')),
                 Tables\Columns\TextColumn::make('status')
                     ->badge()
-                    ->color(fn (string $state): string => match ($state) {
+                    ->color(fn(string $state): string => match ($state) {
                         'draft' => 'gray',
                         'published' => 'success',
                         'archived' => 'danger',
@@ -224,4 +224,3 @@ class ProductResource extends Resource
         ];
     }
 }
-
