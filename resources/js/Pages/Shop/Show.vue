@@ -24,9 +24,9 @@ const stockLabel = computed(() => {
     const selectedVariant = hasVariants.value
         ? props.product.variants.find((v) => v.id === selectedVariantId.value)
         : null;
-    
+
     const inventory = selectedVariant?.inventory ?? props.product.inventory;
-    
+
     if (inventory === 0) {
         return 'Sold out';
     }
@@ -42,7 +42,7 @@ const isOutOfStock = computed(() => {
     const selectedVariant = hasVariants.value
         ? props.product.variants.find((v) => v.id === selectedVariantId.value)
         : null;
-    
+
     const inventory = selectedVariant?.inventory ?? props.product.inventory;
     return inventory === 0;
 });
@@ -149,50 +149,36 @@ const handleAddToWishlist = () => {
 </script>
 
 <template>
+
     <Head :title="product.name" />
     <StorefrontLayout>
         <div class="container mb-5">
             <div class="row g-5 align-items-start mb-5">
                 <div class="col-lg-6">
                     <div class="rounded-4 overflow-hidden shadow-sm bg-white mb-3" style="padding-top: 2rem;">
-                        <img
-                            :src="selectedImage ?? product.images[0]?.url ?? 'https://placehold.co/800x1000?text=Score+Beyond'"
-                            :alt="product.name"
-                            class="w-100 object-fit-contain"
-                            style="aspect-ratio: 4 / 5; padding: 1rem;"
-                        />
+                        <img :src="selectedImage ?? product.images[0]?.url ?? 'https://placehold.co/800x1000?text=Score+Beyond'"
+                            :alt="product.name" class="w-100 object-fit-contain"
+                            style="aspect-ratio: 4 / 5; padding: 1rem;" />
                     </div>
-                    <div v-if="product.images.length > 2" class="product-images-scroll d-flex gap-3 overflow-x-auto pb-2" style="scrollbar-width: thin;">
-                        <button
-                            v-for="image in product.images"
-                            :key="image.url"
-                            class="btn btn-outline-light flex-shrink-0 p-0 rounded-4 border-0"
-                            style="width: 100px;"
-                            @click="selectedImage = image.url"
-                        >
-                            <img
-                                :src="image.url"
-                                :alt="image.alt_text ?? product.name"
+                    <div v-if="product.images.length > 2"
+                        class="product-images-scroll d-flex gap-3 overflow-x-auto pb-2" style="scrollbar-width: thin;">
+                        <button v-for="image in product.images" :key="image.url"
+                            class="btn btn-outline-light flex-shrink-0 p-0 rounded-4 border-0" style="width: 100px;"
+                            @click="selectedImage = image.url">
+                            <img :src="image.url" :alt="image.alt_text ?? product.name"
                                 class="w-100 object-fit-contain rounded-4 border"
                                 :class="{ 'border-primary border-2': selectedImage === image.url }"
-                                style="aspect-ratio: 1; padding: 0.5rem;"
-                            />
+                                style="aspect-ratio: 1; padding: 0.5rem;" />
                         </button>
                     </div>
                     <div v-else class="d-flex gap-3">
-                        <button
-                            v-for="image in product.images"
-                            :key="image.url"
+                        <button v-for="image in product.images" :key="image.url"
                             class="btn btn-outline-light flex-grow-1 p-0 rounded-4 border-0"
-                            @click="selectedImage = image.url"
-                        >
-                            <img
-                                :src="image.url"
-                                :alt="image.alt_text ?? product.name"
+                            @click="selectedImage = image.url">
+                            <img :src="image.url" :alt="image.alt_text ?? product.name"
                                 class="w-100 object-fit-contain rounded-4 border"
                                 :class="{ 'border-primary border-2': selectedImage === image.url }"
-                                style="aspect-ratio: 4 / 5; padding: 0.5rem;"
-                            />
+                                style="aspect-ratio: 4 / 5; padding: 0.5rem;" />
                         </button>
                     </div>
                 </div>
@@ -201,10 +187,8 @@ const handleAddToWishlist = () => {
                         <span class="badge bg-primary-subtle text-primary text-uppercase fw-semibold">
                             {{ product.category }}
                         </span>
-                        <span
-                            v-if="product.is_limited_edition"
-                            class="badge bg-warning-subtle text-warning text-uppercase fw-semibold"
-                        >
+                        <span v-if="product.is_limited_edition"
+                            class="badge bg-warning-subtle text-warning text-uppercase fw-semibold">
                             Limited Edition
                         </span>
                         <span class="text-muted text-uppercase small fw-semibold">
@@ -227,19 +211,12 @@ const handleAddToWishlist = () => {
                     <div v-if="hasVariants" class="mb-4">
                         <label class="text-uppercase small fw-semibold text-muted mb-2">Select size / variant</label>
                         <div class="d-flex flex-wrap gap-2">
-                            <button
-                                v-for="variant in product.variants"
-                                :key="variant.id"
-                                class="btn rounded-pill px-4 fw-semibold"
-                                :class="{
+                            <button v-for="variant in product.variants" :key="variant.id"
+                                class="btn rounded-pill px-4 fw-semibold" :class="{
                                     'btn-primary text-white': selectedVariantId === variant.id,
                                     'btn-outline-secondary': selectedVariantId !== variant.id,
                                     'opacity-50': variant.inventory === 0,
-                                }"
-                                :disabled="variant.inventory === 0"
-                                type="button"
-                                @click="selectVariant(variant)"
-                            >
+                                }" :disabled="variant.inventory === 0" type="button" @click="selectVariant(variant)">
                                 {{ variant.name }}
                                 <span v-if="variant.inventory === 0" class="ms-1">(Out of stock)</span>
                             </button>
@@ -247,35 +224,23 @@ const handleAddToWishlist = () => {
                     </div>
 
                     <div class="d-flex gap-3 mb-3">
-                        <button
-                            class="btn btn-primary btn-lg rounded-pill text-uppercase fw-semibold flex-grow-1"
+                        <button class="btn btn-primary btn-lg rounded-pill text-uppercase fw-semibold flex-grow-1"
                             :disabled="isOutOfStock || (hasVariants && selectedVariantId === null) || isAddingToCart"
-                            type="button"
-                            @click="handleAddToCart"
-                        >
+                            type="button" @click="handleAddToCart">
                             <span v-if="isAddingToCart" class="spinner-border spinner-border-sm me-2"></span>
                             <span v-else>Add to cart</span>
                         </button>
-                        <ShareButton
-                            :url="route('shop.show', product.slug)"
-                            :title="product.name"
-                            :description="product.subtitle ?? undefined"
-                            :image="product.images[0]?.url ?? undefined"
-                        />
+                        <ShareButton :url="route('shop.show', product.slug)" :title="product.name"
+                            :description="product.subtitle ?? undefined" :image="product.images[0]?.url ?? undefined" />
                     </div>
                     <div v-if="isAuthenticated" class="d-flex gap-3">
-                        <button
-                            class="btn btn-outline-secondary rounded-pill flex-grow-1"
-                            type="button"
-                            @click="handleAddToWishlist"
-                        >
+                        <button class="btn btn-outline-secondary rounded-pill flex-grow-1" type="button"
+                            @click="handleAddToWishlist">
                             <i class="bi bi-bookmark me-2"></i>Save to Wishlist
                         </button>
                     </div>
-
-                    <hr class="my-5" />
-
-                    <div class="row g-4">
+                    <hr class="my-5" v-if="product.materials || product.care_instructions" />
+                    <div class="row g-4" v-if="product.materials || product.care_instructions">
                         <div class="col-md-6">
                             <h3 class="fw-semibold text-primary">Materials & Care</h3>
                             <p class="text-muted">{{ product.materials }}</p>
@@ -294,17 +259,15 @@ const handleAddToWishlist = () => {
                 <div class="row g-4">
                     <div class="col-12 col-sm-6 col-lg-3" v-for="item in related" :key="item.id">
                         <div class="product-card bg-white h-100 d-flex flex-column">
-                            <img
-                                :src="item.image ?? 'https://placehold.co/600x800?text=Score+Beyond'"
-                                :alt="item.image_alt ?? item.name"
-                                class="product-card__image"
-                            />
+                            <img :src="item.image ?? 'https://placehold.co/600x800?text=Score+Beyond'"
+                                :alt="item.image_alt ?? item.name" class="product-card__image" />
                             <div class="p-3 d-flex flex-column gap-2 flex-grow-1">
                                 <p class="text-uppercase text-muted small fw-semibold mb-0">{{ item.category }}</p>
                                 <h3 class="fs-6">{{ item.name }}</h3>
                                 <div class="fw-bold text-primary">{{ formattedPrice(item.price) }}</div>
                                 <div class="text-muted small">{{ formattedUsd(item.price) }}</div>
-                                <Link class="btn btn-outline-primary rounded-pill mt-auto" :href="route('shop.show', item.slug)">
+                                <Link class="btn btn-outline-primary rounded-pill mt-auto"
+                                    :href="route('shop.show', item.slug)">
                                     View
                                 </Link>
                             </div>
@@ -315,4 +278,3 @@ const handleAddToWishlist = () => {
         </div>
     </StorefrontLayout>
 </template>
-
